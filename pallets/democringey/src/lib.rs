@@ -629,6 +629,17 @@ decl_module! {
 			Self::deposit_event(RawEvent::Proposed(index, value));
 		}
 
+		/// Propose a referendum to approve a treasury proposal.
+		///
+		/// The dispatch origin of this call must be _Signed_ and the sender must
+		/// have funds to cover the deposit.
+		///
+		/// - `treasury_proposal_id`: The id of the treasury proposal.
+		/// - `value`: The amount of deposit (must be at least `MinimumDeposit`).
+		///
+		/// Emits `Proposed`.
+		///
+		/// Weight: `O(p)`
 		#[weight = T::WeightInfo::propose_treasury_spend_simple_majority()]
 		fn propose_treasury_spend_simple_majority(origin,
 			treasury_proposal_id: PropIndex,
@@ -637,9 +648,6 @@ decl_module! {
 			let who = ensure_signed(origin)?;
 			ensure!(value >= T::MinimumDeposit::get(), Error::<T>::ValueLow);
 			let p =T::TreasuryProposals::approve_proposal(treasury_proposal_id);
-			sp_std::if_std!{
-				println!("--- length={:?}",p.len());
-			}
 			let proposal_hash = T::Hashing::hash(&p[..]);
 			Self::note_preimage_inner(who.clone(), p)?;
 			let index = Self::public_prop_count();			
