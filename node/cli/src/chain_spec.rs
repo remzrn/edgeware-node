@@ -243,7 +243,7 @@ pub fn testnet_genesis(
 			slash_reward_fraction: Perbill::from_percent(10),
 			..Default::default()
 		},
-		pallet_democracy: DemocracyConfig::default(),
+		pallet_democringey: DemocracyConfig::default(),
 		pallet_collective_Instance1: Default::default(),
 		pallet_aura: AuraConfig { authorities: vec![] },
 		pallet_im_online: ImOnlineConfig { keys: vec![] },
@@ -474,7 +474,7 @@ pub fn mainnet_genesis(
 			slash_reward_fraction: Perbill::from_percent(10),
 			..Default::default()
 		},
-		pallet_democracy: DemocracyConfig::default(),
+		pallet_democringey: DemocracyConfig::default(),
 		pallet_collective_Instance1: CouncilConfig {
 			members: crate::mainnet_fixtures::get_mainnet_election_members(),
 			phantom: Default::default(),

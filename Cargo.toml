@@ -6,6 +6,7 @@ members = [
 	"client/rpc-core/debug",
 	"client/rpc-core/trace",
 	"client/rpc-core/txpool",
+	"pallets/democringey",
 	"pallets/edge-treasury-reward",
 	"pallets/orml-nft",
 	"pallets/nft",
@@ -119,7 +120,6 @@ pallet-contracts-primitives = { git = "https://github.com/webb-tools/substrate.g
 pallet-contracts-proc-macro = { git = "https://github.com/webb-tools/substrate.git", branch = "erup-4" }
 pallet-contracts-rpc = { git = "https://github.com/webb-tools/substrate.git", branch = "erup-4" }
 pallet-contracts-rpc-runtime-api = { git = "https://github.com/webb-tools/substrate.git", branch = "erup-4" }
-pallet-democracy = { git = "https://github.com/webb-tools/substrate.git", branch = "erup-4" }
 pallet-elections-phragmen = { git = "https://github.com/webb-tools/substrate.git", branch = "erup-4" }
 pallet-election-provider-multi-phase = { git = "https://github.com/webb-tools/substrate.git", branch = "erup-4" }
 pallet-grandpa = { git = "https://github.com/webb-tools/substrate.git", branch = "erup-4" }

@@ -596,13 +596,21 @@ parameter_types! {
 	pub const MinimumDeposit: Balance = 100 * DOLLARS;
 	pub const InstantAllowed: bool = false;
 	pub const EnactmentPeriod: BlockNumber = 1 * 24 * 60 * MINUTES;
+	pub const TreasuryProposalsEnactmentPeriod: BlockNumber = 1 * DAYS;
 	pub const CooloffPeriod: BlockNumber = 7 * 24 * 60 * MINUTES;
 	pub const PreimageByteDeposit: Balance = 1 * CENTS;
 	pub const MaxVotes: u32 = 100;
 	pub const MaxProposals: u32 = 100;
 }
 
-impl pallet_democracy::Config for Runtime {
+pub struct TreasuryProposalsHandle;
+impl pallet_democringey::ApprovingProposal for TreasuryProposalsHandle {
+	fn approve_proposal(proposal_id: pallet_democringey::PropIndex) -> Vec<u8> {
+		Call::Treasury(pallet_treasury::Call::approve_proposal(proposal_id)).encode()
+	}
+}
+
+impl pallet_democringey::Config for Runtime {
 	type BlacklistOrigin = EnsureRoot<AccountId>;
 	// To cancel a proposal before it has been passed, the technical committee must
 	// be unanimous or Root must agree.
@@ -621,6 +629,7 @@ impl pallet_democracy::Config for Runtime {
 	type CooloffPeriod = CooloffPeriod;
 	type Currency = Balances;
 	type EnactmentPeriod = EnactmentPeriod;
+	type TreasuryProposalsEnactmentPeriod = TreasuryProposalsEnactmentPeriod;
 	type Event = Event;
 	/// A unanimous council can have the next scheduled referendum be a straight
 	/// default-carries (NTB) vote.
@@ -662,7 +671,8 @@ impl pallet_democracy::Config for Runtime {
 	// No vetoing
 	type VetoOrigin = frame_system::EnsureNever<AccountId>;
 	type VotingPeriod = VotingPeriod;
-	type WeightInfo = pallet_democracy::weights::SubstrateWeight<Runtime>;
+	type WeightInfo = pallet_democringey::weights::SubstrateWeight<Runtime>;
+	type TreasuryProposals = TreasuryProposalsHandle;
 }
 
 parameter_types! {
@@ -1220,7 +1230,7 @@ construct_runtime!(
 		TransactionPayment: pallet_transaction_payment::{Pallet, Storage} = 7,
 		Staking: pallet_staking::{Pallet, Call, Config<T>, Storage, Event<T>} = 8,
 		Session: pallet_session::{Pallet, Call, Storage, Event, Config<T>} = 9,
-		Democracy: pallet_democracy::{Pallet, Call, Storage, Config, Event<T>} = 10,
+		Democracy: pallet_democringey::{Pallet, Call, Storage, Config, Event<T>} = 10,
 		Council: pallet_collective::<Instance1>::{Pallet, Call, Storage, Origin<T>, Event<T>, Config<T>} = 11,
 		PhragmenElection: pallet_elections_phragmen::{Pallet, Call, Storage, Event<T>, Config<T>} = 12,
 		Grandpa: pallet_grandpa::{Pallet, Call, Storage, Config, Event, ValidateUnsigned} = 14,
